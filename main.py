@@ -27,12 +27,13 @@ class HouseInput(BaseModel):
 @app.get("/")
 def home():
     return {"message": "House Price Prediction API is running"}
-  
 
+ 
 @app.post("/predict")
 def predict(data: HouseInput):
 
-    logger.info(f"Prediction request received: {data}")
+    print("=" * 50, flush=True)
+    print(f"Prediction request received: {data}", flush=True)
 
     features = [[
         data.MedInc,
@@ -47,9 +48,9 @@ def predict(data: HouseInput):
 
     prediction = model.predict(features)
 
-    logger.info(f"Prediction generated: {prediction[0]}")
+    print(f"Prediction generated: {prediction[0]}", flush=True)
+    print("=" * 50, flush=True)
 
     return {
         "predicted_house_price": float(prediction[0])
     }
-  
