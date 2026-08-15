@@ -2,6 +2,11 @@ from fastapi import FastAPI
 
 from pydantic import BaseModel
 
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 import joblib
 
 app = FastAPI(title="House Price Prediction API")
@@ -27,6 +32,8 @@ def home():
 @app.post("/predict")
 def predict(data: HouseInput):
 
+    logger.info(f"Prediction request received: {data}")
+
     features = [[
         data.MedInc,
         data.HouseAge,
@@ -39,6 +46,8 @@ def predict(data: HouseInput):
     ]]
 
     prediction = model.predict(features)
+
+    logger.info(f"Prediction generated: {prediction[0]}")
 
     return {
         "predicted_house_price": float(prediction[0])
